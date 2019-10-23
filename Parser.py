@@ -39,8 +39,8 @@ def handleCSV():
                     loadCSV(entry)
             for entry in folders:
                 loadOnce(entry)
-    loadOnce('csv/_Replace.csv')
-    loadOnce('csv/_Rename.csv')
+    # loadOnce('csv/_Replace.csv')
+    # loadOnce('csv/_Rename.csv')
     loadOnce('csv')
 
 
@@ -59,11 +59,17 @@ def handleERH():
                     loadERH(entry)
             for entry in folders:
                 loadOnce(entry)
+    loadOnce('erb')
 
 
 def handleERB():
-    def loadERH(path):
+    def loadERB(path):
         print(path.name)
+        with open(path.path, encoding='utf8') as f:
+            data = f.read().splitlines()
+            for line in data:
+                if line.startswith('@'):
+                    print(line)
 
     def loadOnce(path):
         # *.erb 深度优先
@@ -71,8 +77,13 @@ def handleERB():
             for entry in it:
                 if entry.is_dir():
                     loadOnce(entry)
-                if entry.is_file() and entry.name.upper().endswith('.ERH'):
-                    loadERH(entry)
+                if entry.is_file() and entry.name.upper().endswith('.ERB'):
+                    loadERB(entry)
+    loadOnce('erb')
+
+
+def parseFunction():
+    pass
 
 
 if __name__ == "__main__":
